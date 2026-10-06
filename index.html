@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LISA — PRESS PLAY Caption Generator</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, #25202b 0%, #0b0b0f 45%, #050507 100%);
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  width: min(850px, 92%);
+  margin: auto;
+  padding: 40px 0 60px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.mini {
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: #999;
+  margin-bottom: 10px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(34px, 8vw, 60px);
+  letter-spacing: -3px;
+}
+
+.header p {
+  color: #999;
+  margin-top: 12px;
+}
+
+.card {
+  background: rgba(18,18,23,.92);
+  border: 1px solid #2c2c34;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.25);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+label {
+  display: block;
+  color: #aaa;
+  font-size: 11px;
+  margin-bottom: 7px;
+  letter-spacing: .5px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #36363f;
+  background: #0d0d11;
+  color: #fff;
+  outline: none;
+  font-size: 14px;
+}
+
+input:focus,
+select:focus {
+  border-color: #77717f;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 18px;
+}
+
+button {
+  border: none;
+  border-radius: 12px;
+  padding: 13px 17px;
+  cursor: pointer;
+  font-weight: 700;
+  background: #fff;
+  color: #08080a;
+  transition: .2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  opacity: .9;
+}
+
+button.secondary {
+  background: #27272f;
+  color: #fff;
+  border: 1px solid #383841;
+}
+
+.result {
+  min-height: 150px;
+  padding: 20px;
+  border-radius: 14px;
+  background: #0d0d11;
+  border: 1px solid #292930;
+  font-size: 18px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.tags {
+  margin-top: 14px;
+  color: #aaa;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.counter {
+  margin-top: 10px;
+  color: #666672;
+  font-size: 11px;
+}
+
+.footer {
+  text-align: center;
+  color: #55555f;
+  font-size: 11px;
+  margin-top: 28px;
+}
+
+@media (max-width: 650px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full {
+    grid-column: auto;
+  }
+
+  .container {
+    padding-top: 28px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  button {
+    flex: 1;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="mini">LISANESIA</div>
+    <h1>LISA — PRESS PLAY</h1>
+    <p>Bilingual Caption Generator • 100 Captions</p>
+  </div>
+
+  <div class="card">
+
+    <div class="grid">
+
+      <div>
+        <label>LANGUAGE / BAHASA</label>
+        <select id="language">
+          <option value="id">🇮🇩 Bahasa Indonesia</option>
+          <option value="en">🇬🇧 English</option>
+        </select>
+      </div>
+
+      <div>
+        <label>VIBE</label>
+        <select id="vibe">
+          <option value="elegan">✨ Elegant</option>
+          <option value="music">🎵 Music</option>
+          <option value="hype">🔥 Hype / Support</option>
+          <option value="powerful">⚡ Powerful</option>
+          <option value="short">🖤 Short</option>
+        </select>
+      </div>
+
+      <div>
+        <label>NAMA</label>
+        <input
+          id="name"
+          value="LISA"
+          placeholder="LISA"
+        >
+      </div>
+
+      <div>
+        <label>MOMEN / ALBUM</label>
+        <input
+          id="moment"
+          value="PRESS PLAY"
+          placeholder="PRESS PLAY"
+        >
+      </div>
+
+      <div class="full">
+        <label>HASHTAG — BISA DIEDIT LANGSUNG</label>
+        <input
+          id="hashtags"
+          value="#LISA #PRESSPLAY"
+          placeholder="#LISA #PRESSPLAY"
+        >
+      </div>
+
+    </div>
+
+    <div class="buttons">
+      <button onclick="generateCaption()">
+        🎲 Generate Caption
+      </button>
+
+      <button class="secondary" onclick="copyCaption()">
+        📋 Copy Caption
+      </button>
+
+      <button class="secondary" onclick="copyAll()">
+        📋 Copy All
+      </button>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div id="result" class="result">
+      Klik "Generate Caption" untuk mendapatkan caption.
+    </div>
+
+    <div id="tags" class="tags"></div>
+
+    <div id="counter" class="counter"></div>
+
+  </div>
+
+
+  <div class="footer">
+    LISA • PRESS PLAY • LISANESIA
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   CAPTION DATABASE
+   50 INDONESIA + 50 ENGLISH
+========================================================= */
+
+const captions = {
+
+id: [
+
+"PRESS PLAY dan biarkan era baru LISA dimulai.",
+
+"Album baru LISA akhirnya hadir. Waktunya replay.",
+
+"Suara LISA, energi baru, satu album yang luar biasa.",
+
+"PRESS PLAY adalah soundtrack baru hari ini.",
+
+"Setiap track membawa warna berbeda dari LISA.",
+
+"LISA kembali dengan musik yang siap memenuhi playlist.",
+
+"Tekan play dan nikmati perjalanan musik LISA.",
+
+"Album baru, era baru, energi baru dari LISA.",
+
+"PRESS PLAY, lalu ulangi lagi dari awal.",
+
+"Musik LISA selalu punya cara untuk meninggalkan kesan.",
+
+"Setiap lagu terasa seperti bagian baru dari perjalanan LISA.",
+
+"LISA dan PRESS PLAY, kombinasi yang akhirnya kita tunggu.",
+
+"Naikkan volume, waktunya menikmati album baru LISA.",
+
+"PRESS PLAY sampai track terakhir.",
+
+"Album ini resmi masuk playlist wajib hari ini.",
+
+"LISA hadir dengan warna musik yang semakin kuat.",
+
+"Satu album, banyak momen untuk dirayakan.",
+
+"Tekan play dan biarkan musik LISA mengambil alih.",
+
+"PRESS PLAY terasa semakin seru setiap kali diputar.",
+
+"LISA membuka bab baru lewat album ini.",
+
+"Musik baru LISA akhirnya ada di tangan kita.",
+
+"Setiap beat membawa energi khas LISA.",
+
+"Album baru ini layak didengarkan berulang kali.",
+
+"PRESS PLAY dan temukan track favoritmu.",
+
+"LISA membuat setiap lagu terasa punya karakter sendiri.",
+
+"Era baru LISA sudah dimulai.",
+
+"Putar sekali, lalu pasti ingin replay lagi.",
+
+"PRESS PLAY adalah alasan baru untuk menaikkan volume.",
+
+"LISA membawa energi baru ke dalam playlist.",
+
+"Setiap detik album ini terasa worth it.",
+
+"Musik LISA, momen kita.",
+
+"Album baru LISA sudah waktunya memenuhi headphone.",
+
+"PRESS PLAY dan nikmati setiap track tanpa skip.",
+
+"LISA terus berkembang, dan musiknya ikut tumbuh.",
+
+"Satu tombol play membuka dunia baru LISA.",
+
+"Album ini punya energi yang sulit dilepas.",
+
+"Tekan play, dengarkan, ulangi.",
+
+"LISA kembali dan langsung mengubah suasana.",
+
+"PRESS PLAY, waktunya merayakan musik LISA.",
+
+"Setiap track punya cerita dan suasananya sendiri.",
+
+"Album baru ini terasa seperti awal dari sesuatu yang besar.",
+
+"LISA menghadirkan era baru dengan musiknya sendiri.",
+
+"Replay lagi karena sekali dengar belum cukup.",
+
+"PRESS PLAY dan biarkan playlist hari ini berubah.",
+
+"LISA ada di playlist, dan itu sudah cukup jadi alasan untuk play.",
+
+"Musik baru LISA akhirnya menjadi bagian dari hari ini.",
+
+"Era baru, musik baru, tetap LISA.",
+
+"PRESS PLAY sampai hafal setiap momennya.",
+
+"LISA, album barumu akhirnya kami dengarkan."
+
+],
+
+en: [
+
+"PRESS PLAY and let LISA's new era begin.",
+
+"LISA's new album is finally here. Time to replay.",
+
+"New music, new energy, one unforgettable LISA era.",
+
+"PRESS PLAY is today's new soundtrack.",
+
+"Every track brings another color of LISA.",
+
+"LISA is back with music ready to fill our playlists.",
+
+"Hit play and enjoy LISA's musical journey.",
+
+"New album, new era, new energy from LISA.",
+
+"PRESS PLAY, then start it all over again.",
+
+"LISA's music always finds a way to leave an impression.",
+
+"Every song feels like another chapter in LISA's journey.",
+
+"LISA and PRESS PLAY, the moment we have been waiting for.",
+
+"Turn up the volume, it's time for LISA's new album.",
+
+"PRESS PLAY all the way to the final track.",
+
+"This album officially belongs on today's must-play list.",
+
+"LISA returns with an even stronger musical color.",
+
+"One album, so many moments to celebrate.",
+
+"Hit play and let LISA's music take over.",
+
+"PRESS PLAY gets better with every replay.",
+
+"LISA opens a new chapter with this album.",
+
+"New LISA music is finally here for us to enjoy.",
+
+"Every beat carries that unmistakable LISA energy.",
+
+"This new album deserves more than one listen.",
+
+"PRESS PLAY and find your favorite track.",
+
+"LISA makes every song feel like it has its own character.",
+
+"The new LISA era has officially begun.",
+
+"One play quickly turns into another replay.",
+
+"PRESS PLAY is another reason to turn the volume up.",
+
+"LISA brings fresh energy into the playlist.",
+
+"Every second of this album feels worth the listen.",
+
+"LISA's music, our moment.",
+
+"LISA's new album is ready to fill our headphones.",
+
+"PRESS PLAY and enjoy every track without skipping.",
+
+"LISA keeps evolving, and her music grows with her.",
+
+"One play button opens a new world of LISA.",
+
+"This album carries an energy that is hard to let go of.",
+
+"Hit play, listen, repeat.",
+
+"LISA is back and instantly changing the mood.",
+
+"PRESS PLAY, it's time to celebrate LISA's music.",
+
+"Every track has its own story and atmosphere.",
+
+"This new album feels like the beginning of something bigger.",
+
+"LISA brings a new era through music that feels like her own.",
+
+"Replay it, because one listen is never enough.",
+
+"PRESS PLAY and let today's playlist change completely.",
+
+"LISA is on the playlist, and that's reason enough to press play.",
+
+"New LISA music is finally part of today.",
+
+"New era, new music, still LISA.",
+
+"PRESS PLAY until every moment feels familiar.",
+
+"LISA, your new album is finally playing."
+
+]
+
+};
+
+
+/* =========================================================
+   VIBE
+   Versi ringan: vibe tetap tersedia.
+   Caption dipilih dari seluruh database.
+========================================================= */
+
+const used = {
+  id: new Set(),
+  en: new Set()
+};
+
+let currentCaption = "";
+
+
+/* =========================================================
+   GENERATE
+========================================================= */
+
+function generateCaption() {
+
+  const language =
+    document.getElementById("language").value;
+
+  const name =
+    document.getElementById("name").value.trim() || "LISA";
+
+  const moment =
+    document.getElementById("moment").value.trim() || "PRESS PLAY";
+
+  const hashtags =
+    document.getElementById("hashtags").value.trim();
+
+  const list = captions[language];
+
+  /* Reset setelah semua caption dipakai */
+  if (used[language].size >= list.length) {
+    used[language].clear();
+  }
+
+  let randomIndex;
+
+  do {
+
+    randomIndex =
+      Math.floor(Math.random() * list.length);
+
+  } while (
+    used[language].has(randomIndex)
+  );
+
+  used[language].add(randomIndex);
+
+  currentCaption =
+    list[randomIndex]
+      .replaceAll("LISA", name)
+      .replaceAll("PRESS PLAY", moment);
+
+  document.getElementById("result").textContent =
+    currentCaption;
+
+  document.getElementById("tags").textContent =
+    hashtags;
+
+  document.getElementById("counter").textContent =
+    `${used[language].size} / ${list.length} caption digunakan`;
+
+}
+
+
+/* =========================================================
+   COPY CAPTION
+========================================================= */
+
+function copyCaption() {
+
+  if (!currentCaption) {
+    generateCaption();
+  }
+
+  navigator.clipboard.writeText(currentCaption);
+
+}
+
+
+/* =========================================================
+   COPY CAPTION + HASHTAG
+========================================================= */
+
+function copyAll() {
+
+  if (!currentCaption) {
+    generateCaption();
+  }
+
+  const hashtags =
+    document.getElementById("hashtags").value.trim();
+
+  const finalText =
+    hashtags
+      ? currentCaption + "\n\n" + hashtags
+      : currentCaption;
+
+  navigator.clipboard.writeText(finalText);
+
+}
+
+</script>
+
+</body>
+  </html>

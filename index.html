@@ -766,7 +766,120 @@ en: [
 ]
 
 };
+/* =========================================================
+   VIBE FILTER
+========================================================= */
 
+const vibeKeywords = {
+
+  elegan: [
+    "era",
+    "chapter",
+    "color",
+    "character",
+    "journey",
+    "bab",
+    "warna",
+    "perjalanan",
+    "karakter"
+  ],
+
+  music: [
+    "track",
+    "music",
+    "musik",
+    "playlist",
+    "beat",
+    "album",
+    "play",
+    "putar",
+    "replay",
+    "dengarkan",
+    "headphone",
+    "volume"
+  ],
+
+  hype: [
+    "celebrate",
+    "merayakan",
+    "volume",
+    "wajib",
+    "must-play",
+    "akhirnya",
+    "finally",
+    "hadir",
+    "kembali",
+    "alasan"
+  ],
+
+  powerful: [
+    "energy",
+    "energi",
+    "strong",
+    "kuat",
+    "take over",
+    "mengambil alih",
+    "mengubah",
+    "evolving",
+    "berkembang",
+    "tumbuh",
+    "dunia baru"
+  ],
+
+  short: [
+    "Musik LISA, momen kita.",
+    "Era baru, musik baru, tetap LISA.",
+    "Tekan play, dengarkan, ulangi.",
+    "Hit play, listen, repeat.",
+    "LISA's music, our moment.",
+    "New era, new music, still LISA."
+  ]
+
+};
+
+
+/* =========================================================
+   GET VIBE CAPTIONS
+========================================================= */
+
+function getVibeCaptions(language, vibe){
+
+  const list = captions[language];
+
+  /* SHORT */
+  if(vibe === "short"){
+
+    return list.filter(caption =>
+      caption.split(/\s+/).length <= 8
+    );
+
+  }
+
+  const keywords =
+    vibeKeywords[vibe] || [];
+
+  const filtered =
+    list.filter(caption => {
+
+      const text =
+        caption.toLowerCase();
+
+      return keywords.some(keyword =>
+        text.includes(keyword.toLowerCase())
+      );
+
+    });
+
+  /*
+    Kalau hasil terlalu sedikit,
+    tetap gunakan database utama.
+  */
+
+  return filtered.length >= 3
+    ? filtered
+    : list;
+
+}
 
 /* =========================================================
    ANTI-REPEAT

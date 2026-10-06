@@ -902,6 +902,9 @@ function generateCaption(){
   const language =
     document.getElementById("language").value;
 
+  const vibe =
+    document.getElementById("vibe").value;
+
   const name =
     document.getElementById("name").value.trim() || "LISA";
 
@@ -911,15 +914,86 @@ function generateCaption(){
   const hashtags =
     document.getElementById("hashtags").value.trim();
 
+
+  /* Ambil caption sesuai VIBE */
+
   const list =
-    captions[language];
+    getVibeCaptions(language, vibe);
 
 
-  if(used[language].size >= list.length){
+  /*
+    Reset kalau semua caption dari vibe
+    tersebut sudah pernah digunakan.
+  */
+
+  if(used[language].size >= captions[language].length){
 
     used[language].clear();
 
   }
+
+
+  let caption;
+  let attempts = 0;
+
+
+  do{
+
+    const randomIndex =
+      Math.floor(Math.random() * list.length);
+
+    caption =
+      list[randomIndex];
+
+    attempts++;
+
+  }
+
+  while(
+    used[language].has(
+      captions[language].indexOf(caption)
+    )
+    &&
+    attempts < 100
+  );
+
+
+  const originalIndex =
+    captions[language].indexOf(caption);
+
+
+  used[language].add(originalIndex);
+
+
+  currentCaption =
+    caption
+      .replaceAll("LISA", name)
+      .replaceAll("PRESS PLAY", moment);
+
+
+  const result =
+    document.getElementById("result");
+
+
+  result.classList.remove("show");
+
+  void result.offsetWidth;
+
+  result.classList.add("show");
+
+
+  result.textContent =
+    currentCaption;
+
+
+  document.getElementById("tags").textContent =
+    hashtags;
+
+
+  document.getElementById("counter").textContent =
+    `${used[language].size} / ${captions[language].length} caption digunakan • ${vibe.toUpperCase()}`;
+
+}
 
 
   let randomIndex;

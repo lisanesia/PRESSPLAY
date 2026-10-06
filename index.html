@@ -3,267 +3,640 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LISA — PRESS PLAY Caption Generator</title>
+
+<title>LISA — PRESS PLAY</title>
 
 <style>
-* {
-  box-sizing: border-box;
+
+*{
+  box-sizing:border-box;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
   background:
-    radial-gradient(circle at top, #25202b 0%, #0b0b0f 45%, #050507 100%);
-  color: #fff;
-  font-family: Arial, Helvetica, sans-serif;
+    radial-gradient(circle at 50% -10%,rgba(190,170,255,.22),transparent 35%),
+    radial-gradient(circle at 0% 45%,rgba(120,80,180,.10),transparent 30%),
+    radial-gradient(circle at 100% 70%,rgba(255,255,255,.06),transparent 25%),
+    #050507;
+  overflow-x:hidden;
 }
 
-.container {
-  width: min(850px, 92%);
-  margin: auto;
-  padding: 40px 0 60px;
+/* BACKGROUND GLOW */
+
+body::before,
+body::after{
+  content:"";
+  position:fixed;
+  width:350px;
+  height:350px;
+  border-radius:50%;
+  filter:blur(100px);
+  pointer-events:none;
+  z-index:-1;
+  opacity:.35;
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 30px;
+body::before{
+  background:#8b6cff;
+  top:-180px;
+  left:-100px;
+  animation:floatOne 10s ease-in-out infinite alternate;
 }
 
-.mini {
-  font-size: 11px;
-  letter-spacing: 4px;
-  color: #999;
-  margin-bottom: 10px;
+body::after{
+  background:#ffffff;
+  right:-180px;
+  bottom:-150px;
+  animation:floatTwo 12s ease-in-out infinite alternate;
 }
 
-h1 {
-  margin: 0;
-  font-size: clamp(34px, 8vw, 60px);
-  letter-spacing: -3px;
+@keyframes floatOne{
+  from{transform:translate(0,0)}
+  to{transform:translate(100px,80px)}
 }
 
-.header p {
-  color: #999;
-  margin-top: 12px;
+@keyframes floatTwo{
+  from{transform:translate(0,0)}
+  to{transform:translate(-80px,-60px)}
 }
 
-.card {
-  background: rgba(18,18,23,.92);
-  border: 1px solid #2c2c34;
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 20px 50px rgba(0,0,0,.25);
+/* PARTICLES */
+
+.particles{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:-1;
+  overflow:hidden;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
+.particles span{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:#fff;
+  border-radius:50%;
+  opacity:.35;
+  animation:particleMove linear infinite;
 }
 
-.full {
-  grid-column: 1 / -1;
+.particles span:nth-child(1){left:8%;top:20%;animation-duration:8s}
+.particles span:nth-child(2){left:20%;top:70%;animation-duration:11s}
+.particles span:nth-child(3){left:35%;top:30%;animation-duration:9s}
+.particles span:nth-child(4){left:50%;top:80%;animation-duration:12s}
+.particles span:nth-child(5){left:65%;top:18%;animation-duration:10s}
+.particles span:nth-child(6){left:78%;top:55%;animation-duration:8s}
+.particles span:nth-child(7){left:90%;top:25%;animation-duration:13s}
+.particles span:nth-child(8){left:55%;top:45%;animation-duration:9s}
+
+@keyframes particleMove{
+  0%{
+    transform:translateY(30px);
+    opacity:0;
+  }
+  30%{
+    opacity:.4;
+  }
+  70%{
+    opacity:.2;
+  }
+  100%{
+    transform:translateY(-100px);
+    opacity:0;
+  }
 }
 
-label {
-  display: block;
-  color: #aaa;
-  font-size: 11px;
-  margin-bottom: 7px;
-  letter-spacing: .5px;
+/* CONTAINER */
+
+.container{
+  width:min(850px,92%);
+  margin:auto;
+  padding:45px 0 70px;
 }
+
+/* HEADER */
+
+.header{
+  text-align:center;
+  margin-bottom:35px;
+  animation:fadeDown .8s ease;
+}
+
+@keyframes fadeDown{
+  from{
+    opacity:0;
+    transform:translateY(-20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.mini{
+  display:inline-block;
+  font-size:11px;
+  letter-spacing:5px;
+  color:#c9c3d8;
+  margin-bottom:15px;
+  padding:7px 14px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:100px;
+  background:rgba(255,255,255,.04);
+  backdrop-filter:blur(10px);
+}
+
+h1{
+  margin:0;
+  font-size:clamp(38px,9vw,68px);
+  letter-spacing:-4px;
+  line-height:.95;
+  background:linear-gradient(
+    120deg,
+    #ffffff 20%,
+    #d6cdfa 50%,
+    #ffffff 80%
+  );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  text-shadow:0 0 35px rgba(180,160,255,.15);
+}
+
+.header p{
+  color:#898792;
+  margin-top:18px;
+  font-size:13px;
+  letter-spacing:.3px;
+}
+
+/* EQUALIZER */
+
+.equalizer{
+  height:25px;
+  display:flex;
+  align-items:end;
+  justify-content:center;
+  gap:4px;
+  margin:22px 0 5px;
+}
+
+.equalizer span{
+  width:3px;
+  border-radius:10px;
+  background:#d7d0ef;
+  animation:eq .9s ease-in-out infinite alternate;
+}
+
+.equalizer span:nth-child(1){height:8px}
+.equalizer span:nth-child(2){height:15px;animation-delay:.1s}
+.equalizer span:nth-child(3){height:22px;animation-delay:.2s}
+.equalizer span:nth-child(4){height:13px;animation-delay:.3s}
+.equalizer span:nth-child(5){height:19px;animation-delay:.4s}
+.equalizer span:nth-child(6){height:10px;animation-delay:.5s}
+.equalizer span:nth-child(7){height:17px;animation-delay:.6s}
+
+@keyframes eq{
+  from{transform:scaleY(.45);opacity:.45}
+  to{transform:scaleY(1);opacity:1}
+}
+
+/* CARD */
+
+.card{
+  position:relative;
+  background:rgba(15,15,20,.72);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:24px;
+  padding:22px;
+  margin-bottom:17px;
+  box-shadow:
+    0 25px 80px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.04);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  animation:fadeUp .7s ease;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:24px;
+  background:linear-gradient(
+    135deg,
+    rgba(255,255,255,.05),
+    transparent 40%
+  );
+  pointer-events:none;
+}
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+label{
+  display:block;
+  color:#aaa8b2;
+  font-size:10px;
+  letter-spacing:1px;
+  margin-bottom:8px;
+  font-weight:bold;
+}
+
+/* INPUT */
 
 input,
-select {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: 1px solid #36363f;
-  background: #0d0d11;
-  color: #fff;
-  outline: none;
-  font-size: 14px;
+select{
+  width:100%;
+  padding:14px 15px;
+  border-radius:13px;
+  border:1px solid #303039;
+  background:rgba(7,7,10,.8);
+  color:#fff;
+  outline:none;
+  font-size:14px;
+  transition:.25s;
+}
+
+input:hover,
+select:hover{
+  border-color:#484652;
 }
 
 input:focus,
-select:focus {
-  border-color: #77717f;
+select:focus{
+  border-color:#9a8bbd;
+  box-shadow:0 0 0 3px rgba(150,130,200,.10);
 }
 
-.buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 18px;
+/* BUTTONS */
+
+.buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:20px;
 }
 
-button {
-  border: none;
-  border-radius: 12px;
-  padding: 13px 17px;
-  cursor: pointer;
-  font-weight: 700;
-  background: #fff;
-  color: #08080a;
-  transition: .2s;
+button{
+  border:1px solid transparent;
+  border-radius:13px;
+  padding:13px 17px;
+  cursor:pointer;
+  font-weight:700;
+  color:#08080a;
+  background:linear-gradient(135deg,#fff,#ddd9e8);
+  transition:.25s;
 }
 
-button:hover {
-  transform: translateY(-2px);
-  opacity: .9;
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 25px rgba(255,255,255,.08);
 }
 
-button.secondary {
-  background: #27272f;
-  color: #fff;
-  border: 1px solid #383841;
+button:active{
+  transform:scale(.97);
 }
 
-.result {
-  min-height: 150px;
-  padding: 20px;
-  border-radius: 14px;
-  background: #0d0d11;
-  border: 1px solid #292930;
-  font-size: 18px;
-  line-height: 1.7;
-  white-space: pre-wrap;
+button.secondary{
+  background:rgba(255,255,255,.055);
+  color:#fff;
+  border-color:#35353e;
 }
 
-.tags {
-  margin-top: 14px;
-  color: #aaa;
-  line-height: 1.6;
-  word-break: break-word;
+button.secondary:hover{
+  border-color:#65616f;
+  background:rgba(255,255,255,.09);
 }
 
-.counter {
-  margin-top: 10px;
-  color: #666672;
-  font-size: 11px;
+/* RESULT */
+
+.result{
+  min-height:150px;
+  padding:21px;
+  border-radius:16px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.035),
+      rgba(255,255,255,.01)
+    );
+  border:1px solid rgba(255,255,255,.08);
+  font-size:18px;
+  line-height:1.7;
+  white-space:pre-wrap;
+  transition:.3s;
 }
 
-.footer {
-  text-align: center;
-  color: #55555f;
-  font-size: 11px;
-  margin-top: 28px;
+.result.show{
+  animation:resultPop .35s ease;
 }
 
-@media (max-width: 650px) {
-  .grid {
-    grid-template-columns: 1fr;
+@keyframes resultPop{
+  from{
+    opacity:.3;
+    transform:scale(.99);
   }
-
-  .full {
-    grid-column: auto;
-  }
-
-  .container {
-    padding-top: 28px;
-  }
-
-  .card {
-    padding: 16px;
-  }
-
-  button {
-    flex: 1;
+  to{
+    opacity:1;
+    transform:scale(1);
   }
 }
+
+.tags{
+  margin-top:14px;
+  color:#aaa6b2;
+  line-height:1.6;
+  word-break:break-word;
+}
+
+.counter{
+  margin-top:10px;
+  color:#62616a;
+  font-size:11px;
+}
+
+/* FOOTER */
+
+.footer{
+  text-align:center;
+  color:#55545e;
+  font-size:10px;
+  letter-spacing:2px;
+  margin-top:32px;
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+  .container{
+    width:90%;
+    padding-top:30px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+
+  .card{
+    padding:17px;
+    border-radius:20px;
+  }
+
+  h1{
+    letter-spacing:-2.5px;
+  }
+
+  button{
+    flex:1;
+    min-width:120px;
+  }
+
+  .result{
+    font-size:16px;
+  }
+
+}
+
 </style>
 </head>
 
+
 <body>
+
+<!-- BACKGROUND PARTICLES -->
+
+<div class="particles">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
 
 <div class="container">
 
+
+  <!-- HEADER -->
+
   <div class="header">
-    <div class="mini">LISANESIA</div>
-    <h1>LISA — PRESS PLAY</h1>
-    <p>Bilingual Caption Generator • 100 Captions</p>
+
+    <div class="mini">
+      LISANESIA
+    </div>
+
+    <h1>
+      LISA — PRESS PLAY
+    </h1>
+
+    <div class="equalizer">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <p>
+      Bilingual Caption Generator • 100 Captions
+    </p>
+
   </div>
+
+
+  <!-- GENERATOR -->
 
   <div class="card">
 
     <div class="grid">
 
+
       <div>
-        <label>LANGUAGE / BAHASA</label>
+
+        <label>
+          LANGUAGE / BAHASA
+        </label>
+
         <select id="language">
-          <option value="id">🇮🇩 Bahasa Indonesia</option>
-          <option value="en">🇬🇧 English</option>
+
+          <option value="id">
+            🇮🇩 Bahasa Indonesia
+          </option>
+
+          <option value="en">
+            🇬🇧 English
+          </option>
+
         </select>
+
       </div>
 
+
       <div>
-        <label>VIBE</label>
+
+        <label>
+          VIBE
+        </label>
+
         <select id="vibe">
-          <option value="elegan">✨ Elegant</option>
-          <option value="music">🎵 Music</option>
-          <option value="hype">🔥 Hype / Support</option>
-          <option value="powerful">⚡ Powerful</option>
-          <option value="short">🖤 Short</option>
+
+          <option value="elegan">
+            ✨ Elegant
+          </option>
+
+          <option value="music">
+            🎵 Music
+          </option>
+
+          <option value="hype">
+            🔥 Hype / Support
+          </option>
+
+          <option value="powerful">
+            ⚡ Powerful
+          </option>
+
+          <option value="short">
+            🖤 Short
+          </option>
+
         </select>
+
       </div>
 
+
       <div>
-        <label>NAMA</label>
+
+        <label>
+          NAMA
+        </label>
+
         <input
           id="name"
           value="LISA"
           placeholder="LISA"
         >
+
       </div>
 
+
       <div>
-        <label>MOMEN / ALBUM</label>
+
+        <label>
+          MOMEN / ALBUM
+        </label>
+
         <input
           id="moment"
           value="PRESS PLAY"
           placeholder="PRESS PLAY"
         >
+
       </div>
 
+
       <div class="full">
-        <label>HASHTAG — BISA DIEDIT LANGSUNG</label>
+
+        <label>
+          HASHTAG — BISA DIEDIT LANGSUNG
+        </label>
+
         <input
           id="hashtags"
           value="#LISA #PRESSPLAY"
           placeholder="#LISA #PRESSPLAY"
         >
+
       </div>
+
 
     </div>
 
+
     <div class="buttons">
+
       <button onclick="generateCaption()">
         🎲 Generate Caption
       </button>
 
-      <button class="secondary" onclick="copyCaption()">
+      <button
+        class="secondary"
+        onclick="copyCaption()"
+      >
         📋 Copy Caption
       </button>
 
-      <button class="secondary" onclick="copyAll()">
+      <button
+        class="secondary"
+        onclick="copyAll()"
+      >
         📋 Copy All
       </button>
+
     </div>
 
   </div>
 
 
+  <!-- RESULT -->
+
   <div class="card">
 
-    <div id="result" class="result">
+    <div
+      id="result"
+      class="result"
+    >
       Klik "Generate Caption" untuk mendapatkan caption.
     </div>
 
-    <div id="tags" class="tags"></div>
+    <div
+      id="tags"
+      class="tags"
+    ></div>
 
-    <div id="counter" class="counter"></div>
+    <div
+      id="counter"
+      class="counter"
+    ></div>
 
   </div>
 
@@ -272,6 +645,7 @@ button.secondary {
     LISA • PRESS PLAY • LISANESIA
   </div>
 
+
 </div>
 
 
@@ -279,7 +653,6 @@ button.secondary {
 
 /* =========================================================
    CAPTION DATABASE
-   50 INDONESIA + 50 ENGLISH
 ========================================================= */
 
 const captions = {
@@ -287,101 +660,53 @@ const captions = {
 id: [
 
 "PRESS PLAY dan biarkan era baru LISA dimulai.",
-
 "Album baru LISA akhirnya hadir. Waktunya replay.",
-
 "Suara LISA, energi baru, satu album yang luar biasa.",
-
 "PRESS PLAY adalah soundtrack baru hari ini.",
-
 "Setiap track membawa warna berbeda dari LISA.",
-
 "LISA kembali dengan musik yang siap memenuhi playlist.",
-
 "Tekan play dan nikmati perjalanan musik LISA.",
-
 "Album baru, era baru, energi baru dari LISA.",
-
 "PRESS PLAY, lalu ulangi lagi dari awal.",
-
 "Musik LISA selalu punya cara untuk meninggalkan kesan.",
-
 "Setiap lagu terasa seperti bagian baru dari perjalanan LISA.",
-
 "LISA dan PRESS PLAY, kombinasi yang akhirnya kita tunggu.",
-
 "Naikkan volume, waktunya menikmati album baru LISA.",
-
 "PRESS PLAY sampai track terakhir.",
-
 "Album ini resmi masuk playlist wajib hari ini.",
-
 "LISA hadir dengan warna musik yang semakin kuat.",
-
 "Satu album, banyak momen untuk dirayakan.",
-
 "Tekan play dan biarkan musik LISA mengambil alih.",
-
 "PRESS PLAY terasa semakin seru setiap kali diputar.",
-
 "LISA membuka bab baru lewat album ini.",
-
 "Musik baru LISA akhirnya ada di tangan kita.",
-
 "Setiap beat membawa energi khas LISA.",
-
 "Album baru ini layak didengarkan berulang kali.",
-
 "PRESS PLAY dan temukan track favoritmu.",
-
 "LISA membuat setiap lagu terasa punya karakter sendiri.",
-
 "Era baru LISA sudah dimulai.",
-
 "Putar sekali, lalu pasti ingin replay lagi.",
-
 "PRESS PLAY adalah alasan baru untuk menaikkan volume.",
-
 "LISA membawa energi baru ke dalam playlist.",
-
 "Setiap detik album ini terasa worth it.",
-
 "Musik LISA, momen kita.",
-
 "Album baru LISA sudah waktunya memenuhi headphone.",
-
 "PRESS PLAY dan nikmati setiap track tanpa skip.",
-
 "LISA terus berkembang, dan musiknya ikut tumbuh.",
-
 "Satu tombol play membuka dunia baru LISA.",
-
 "Album ini punya energi yang sulit dilepas.",
-
 "Tekan play, dengarkan, ulangi.",
-
 "LISA kembali dan langsung mengubah suasana.",
-
 "PRESS PLAY, waktunya merayakan musik LISA.",
-
 "Setiap track punya cerita dan suasananya sendiri.",
-
 "Album baru ini terasa seperti awal dari sesuatu yang besar.",
-
 "LISA menghadirkan era baru dengan musiknya sendiri.",
-
 "Replay lagi karena sekali dengar belum cukup.",
-
 "PRESS PLAY dan biarkan playlist hari ini berubah.",
-
 "LISA ada di playlist, dan itu sudah cukup jadi alasan untuk play.",
-
 "Musik baru LISA akhirnya menjadi bagian dari hari ini.",
-
 "Era baru, musik baru, tetap LISA.",
-
 "PRESS PLAY sampai hafal setiap momennya.",
-
 "LISA, album barumu akhirnya kami dengarkan."
 
 ],
@@ -389,101 +714,53 @@ id: [
 en: [
 
 "PRESS PLAY and let LISA's new era begin.",
-
 "LISA's new album is finally here. Time to replay.",
-
 "New music, new energy, one unforgettable LISA era.",
-
 "PRESS PLAY is today's new soundtrack.",
-
 "Every track brings another color of LISA.",
-
 "LISA is back with music ready to fill our playlists.",
-
 "Hit play and enjoy LISA's musical journey.",
-
 "New album, new era, new energy from LISA.",
-
 "PRESS PLAY, then start it all over again.",
-
 "LISA's music always finds a way to leave an impression.",
-
 "Every song feels like another chapter in LISA's journey.",
-
 "LISA and PRESS PLAY, the moment we have been waiting for.",
-
 "Turn up the volume, it's time for LISA's new album.",
-
 "PRESS PLAY all the way to the final track.",
-
 "This album officially belongs on today's must-play list.",
-
 "LISA returns with an even stronger musical color.",
-
 "One album, so many moments to celebrate.",
-
 "Hit play and let LISA's music take over.",
-
 "PRESS PLAY gets better with every replay.",
-
 "LISA opens a new chapter with this album.",
-
 "New LISA music is finally here for us to enjoy.",
-
 "Every beat carries that unmistakable LISA energy.",
-
 "This new album deserves more than one listen.",
-
 "PRESS PLAY and find your favorite track.",
-
 "LISA makes every song feel like it has its own character.",
-
 "The new LISA era has officially begun.",
-
 "One play quickly turns into another replay.",
-
 "PRESS PLAY is another reason to turn the volume up.",
-
 "LISA brings fresh energy into the playlist.",
-
 "Every second of this album feels worth the listen.",
-
 "LISA's music, our moment.",
-
 "LISA's new album is ready to fill our headphones.",
-
 "PRESS PLAY and enjoy every track without skipping.",
-
 "LISA keeps evolving, and her music grows with her.",
-
 "One play button opens a new world of LISA.",
-
 "This album carries an energy that is hard to let go of.",
-
 "Hit play, listen, repeat.",
-
 "LISA is back and instantly changing the mood.",
-
 "PRESS PLAY, it's time to celebrate LISA's music.",
-
 "Every track has its own story and atmosphere.",
-
 "This new album feels like the beginning of something bigger.",
-
 "LISA brings a new era through music that feels like her own.",
-
 "Replay it, because one listen is never enough.",
-
 "PRESS PLAY and let today's playlist change completely.",
-
 "LISA is on the playlist, and that's reason enough to press play.",
-
 "New LISA music is finally part of today.",
-
 "New era, new music, still LISA.",
-
 "PRESS PLAY until every moment feels familiar.",
-
 "LISA, your new album is finally playing."
 
 ]
@@ -492,24 +769,22 @@ en: [
 
 
 /* =========================================================
-   VIBE
-   Versi ringan: vibe tetap tersedia.
-   Caption dipilih dari seluruh database.
+   ANTI-REPEAT
 ========================================================= */
 
 const used = {
-  id: new Set(),
-  en: new Set()
+  id:new Set(),
+  en:new Set()
 };
 
-let currentCaption = "";
+let currentCaption="";
 
 
 /* =========================================================
    GENERATE
 ========================================================= */
 
-function generateCaption() {
+function generateCaption(){
 
   const language =
     document.getElementById("language").value;
@@ -523,36 +798,59 @@ function generateCaption() {
   const hashtags =
     document.getElementById("hashtags").value.trim();
 
-  const list = captions[language];
+  const list =
+    captions[language];
 
-  /* Reset setelah semua caption dipakai */
-  if (used[language].size >= list.length) {
+
+  if(used[language].size >= list.length){
+
     used[language].clear();
+
   }
+
 
   let randomIndex;
 
-  do {
+
+  do{
 
     randomIndex =
-      Math.floor(Math.random() * list.length);
+      Math.floor(Math.random()*list.length);
 
-  } while (
+  }
+
+  while(
     used[language].has(randomIndex)
   );
 
+
   used[language].add(randomIndex);
+
 
   currentCaption =
     list[randomIndex]
-      .replaceAll("LISA", name)
-      .replaceAll("PRESS PLAY", moment);
+      .replaceAll("LISA",name)
+      .replaceAll("PRESS PLAY",moment);
 
-  document.getElementById("result").textContent =
+
+  const result =
+    document.getElementById("result");
+
+
+  result.classList.remove("show");
+
+  void result.offsetWidth;
+
+  result.classList.add("show");
+
+
+  result.textContent =
     currentCaption;
+
 
   document.getElementById("tags").textContent =
     hashtags;
+
 
   document.getElementById("counter").textContent =
     `${used[language].size} / ${list.length} caption digunakan`;
@@ -561,43 +859,51 @@ function generateCaption() {
 
 
 /* =========================================================
-   COPY CAPTION
+   COPY
 ========================================================= */
 
-function copyCaption() {
+function copyCaption(){
 
-  if (!currentCaption) {
+  if(!currentCaption){
+
     generateCaption();
+
   }
 
-  navigator.clipboard.writeText(currentCaption);
+  navigator.clipboard.writeText(
+    currentCaption
+  );
 
 }
 
 
-/* =========================================================
-   COPY CAPTION + HASHTAG
-========================================================= */
+function copyAll(){
 
-function copyAll() {
+  if(!currentCaption){
 
-  if (!currentCaption) {
     generateCaption();
+
   }
 
   const hashtags =
-    document.getElementById("hashtags").value.trim();
+    document.getElementById("hashtags")
+      .value
+      .trim();
+
 
   const finalText =
     hashtags
       ? currentCaption + "\n\n" + hashtags
       : currentCaption;
 
-  navigator.clipboard.writeText(finalText);
+
+  navigator.clipboard.writeText(
+    finalText
+  );
 
 }
 
 </script>
 
 </body>
-  </html>
+          </html>

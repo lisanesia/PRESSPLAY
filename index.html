@@ -3,13 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>LISA — PRESS PLAY</title>
 
 <style>
-
 *{
   box-sizing:border-box;
+}
+
+:root{
+  --yellow:#ffd21c;
+  --yellow2:#ffea75;
+  --dark:#050505;
+  --card:rgba(18,18,18,.78);
+  --card2:rgba(25,25,25,.65);
+  --line:rgba(255,210,28,.16);
+  --text:#fff;
+  --muted:#929292;
 }
 
 html{
@@ -19,53 +28,59 @@ html{
 body{
   margin:0;
   min-height:100vh;
-  color:#fff;
+  color:var(--text);
   font-family:Arial,Helvetica,sans-serif;
   background:
-    radial-gradient(circle at 50% -10%,rgba(190,170,255,.22),transparent 35%),
-    radial-gradient(circle at 0% 45%,rgba(120,80,180,.10),transparent 30%),
-    radial-gradient(circle at 100% 70%,rgba(255,255,255,.06),transparent 25%),
-    #050507;
+    radial-gradient(circle at 50% -15%,rgba(255,210,28,.20),transparent 32%),
+    radial-gradient(circle at 5% 45%,rgba(255,210,28,.07),transparent 25%),
+    radial-gradient(circle at 95% 80%,rgba(255,210,28,.06),transparent 28%),
+    #050505;
   overflow-x:hidden;
 }
 
-/* BACKGROUND GLOW */
+/* BACKGROUND */
 
-body::before,
-body::after{
+body::before{
   content:"";
+  position:fixed;
+  width:500px;
+  height:500px;
+  left:50%;
+  top:-300px;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:var(--yellow);
+  filter:blur(180px);
+  opacity:.13;
+  pointer-events:none;
+  animation:pulseGlow 5s ease-in-out infinite alternate;
+  z-index:-3;
+}
+
+@keyframes pulseGlow{
+  from{opacity:.08;transform:translateX(-50%) scale(.9)}
+  to{opacity:.18;transform:translateX(-50%) scale(1.1)}
+}
+
+/* MOVING LIGHT */
+
+.light{
   position:fixed;
   width:350px;
   height:350px;
   border-radius:50%;
-  filter:blur(100px);
+  background:var(--yellow);
+  filter:blur(180px);
+  opacity:.045;
   pointer-events:none;
-  z-index:-1;
-  opacity:.35;
+  z-index:-2;
+  animation:moveLight 16s ease-in-out infinite alternate;
 }
 
-body::before{
-  background:#8b6cff;
-  top:-180px;
-  left:-100px;
-  animation:floatOne 10s ease-in-out infinite alternate;
-}
-
-body::after{
-  background:#ffffff;
-  right:-180px;
-  bottom:-150px;
-  animation:floatTwo 12s ease-in-out infinite alternate;
-}
-
-@keyframes floatOne{
-  from{transform:translate(0,0)}
-  to{transform:translate(100px,80px)}
-}
-
-@keyframes floatTwo{
-  from{transform:translate(0,0)}
-  to{transform:translate(-80px,-60px)}
+@keyframes moveLight{
+  0%{left:-200px;top:30%}
+  50%{left:60%;top:10%}
+  100%{left:80%;top:70%}
 }
 
 /* PARTICLES */
@@ -74,42 +89,29 @@ body::after{
   position:fixed;
   inset:0;
   pointer-events:none;
-  z-index:-1;
   overflow:hidden;
+  z-index:-1;
 }
 
-.particles span{
+.particle{
   position:absolute;
-  width:3px;
-  height:3px;
-  background:#fff;
+  width:2px;
+  height:2px;
   border-radius:50%;
-  opacity:.35;
-  animation:particleMove linear infinite;
+  background:var(--yellow);
+  opacity:.25;
+  animation:particleFloat linear infinite;
 }
 
-.particles span:nth-child(1){left:8%;top:20%;animation-duration:8s}
-.particles span:nth-child(2){left:20%;top:70%;animation-duration:11s}
-.particles span:nth-child(3){left:35%;top:30%;animation-duration:9s}
-.particles span:nth-child(4){left:50%;top:80%;animation-duration:12s}
-.particles span:nth-child(5){left:65%;top:18%;animation-duration:10s}
-.particles span:nth-child(6){left:78%;top:55%;animation-duration:8s}
-.particles span:nth-child(7){left:90%;top:25%;animation-duration:13s}
-.particles span:nth-child(8){left:55%;top:45%;animation-duration:9s}
-
-@keyframes particleMove{
-  0%{
-    transform:translateY(30px);
+@keyframes particleFloat{
+  from{
+    transform:translateY(110vh) scale(.5);
     opacity:0;
   }
-  30%{
-    opacity:.4;
-  }
-  70%{
-    opacity:.2;
-  }
-  100%{
-    transform:translateY(-100px);
+  15%{opacity:.3}
+  80%{opacity:.2}
+  to{
+    transform:translateY(-15vh) scale(1);
     opacity:0;
   }
 }
@@ -117,140 +119,171 @@ body::after{
 /* CONTAINER */
 
 .container{
-  width:min(850px,92%);
+  width:min(900px,92%);
   margin:auto;
-  padding:45px 0 70px;
+  padding:42px 0 65px;
 }
 
 /* HEADER */
 
 .header{
   text-align:center;
-  margin-bottom:35px;
-  animation:fadeDown .8s ease;
+  margin-bottom:28px;
 }
 
-@keyframes fadeDown{
-  from{
-    opacity:0;
-    transform:translateY(-20px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-.mini{
-  display:inline-block;
-  font-size:11px;
-  letter-spacing:5px;
-  color:#c9c3d8;
-  margin-bottom:15px;
+.brand{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
   padding:7px 14px;
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:100px;
-  background:rgba(255,255,255,.04);
-  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,210,28,.25);
+  border-radius:999px;
+  color:var(--yellow);
+  background:rgba(255,210,28,.045);
+  box-shadow:0 0 25px rgba(255,210,28,.06);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:4px;
+}
+
+.dot{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:var(--yellow);
+  box-shadow:0 0 10px var(--yellow);
+  animation:blink 1.2s infinite;
+}
+
+@keyframes blink{
+  50%{opacity:.25}
 }
 
 h1{
-  margin:0;
-  font-size:clamp(38px,9vw,68px);
+  margin:18px 0 0;
+  font-size:clamp(38px,8vw,72px);
   letter-spacing:-4px;
   line-height:.95;
-  background:linear-gradient(
-    120deg,
-    #ffffff 20%,
-    #d6cdfa 50%,
-    #ffffff 80%
-  );
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  text-shadow:0 0 35px rgba(180,160,255,.15);
+  color:#fff;
+  text-shadow:
+    0 0 15px rgba(255,210,28,.12),
+    0 0 45px rgba(255,210,28,.08);
 }
 
-.header p{
-  color:#898792;
-  margin-top:18px;
+h1 span{
+  color:var(--yellow);
+}
+
+.subtitle{
+  color:#888;
   font-size:13px;
-  letter-spacing:.3px;
+  margin-top:14px;
+}
+
+.stats{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:17px;
+}
+
+.stat{
+  padding:7px 11px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:999px;
+  color:#898989;
+  background:rgba(255,255,255,.025);
+  font-size:9px;
+  letter-spacing:1px;
 }
 
 /* EQUALIZER */
 
 .equalizer{
-  height:25px;
+  height:42px;
   display:flex;
-  align-items:end;
+  align-items:flex-end;
   justify-content:center;
   gap:4px;
-  margin:22px 0 5px;
+  margin:22px 0 3px;
 }
 
-.equalizer span{
-  width:3px;
-  border-radius:10px;
-  background:#d7d0ef;
-  animation:eq .9s ease-in-out infinite alternate;
+.bar{
+  width:4px;
+  border-radius:10px 10px 2px 2px;
+  background:var(--yellow);
+  box-shadow:0 0 9px rgba(255,210,28,.55);
+  animation:eq 1s ease-in-out infinite alternate;
 }
 
-.equalizer span:nth-child(1){height:8px}
-.equalizer span:nth-child(2){height:15px;animation-delay:.1s}
-.equalizer span:nth-child(3){height:22px;animation-delay:.2s}
-.equalizer span:nth-child(4){height:13px;animation-delay:.3s}
-.equalizer span:nth-child(5){height:19px;animation-delay:.4s}
-.equalizer span:nth-child(6){height:10px;animation-delay:.5s}
-.equalizer span:nth-child(7){height:17px;animation-delay:.6s}
+.bar:nth-child(1){height:12px;animation-delay:.1s}
+.bar:nth-child(2){height:24px;animation-delay:.3s}
+.bar:nth-child(3){height:17px;animation-delay:.5s}
+.bar:nth-child(4){height:34px;animation-delay:.15s}
+.bar:nth-child(5){height:21px;animation-delay:.4s}
+.bar:nth-child(6){height:29px;animation-delay:.25s}
+.bar:nth-child(7){height:14px;animation-delay:.6s}
+.bar:nth-child(8){height:26px;animation-delay:.35s}
+.bar:nth-child(9){height:18px;animation-delay:.5s}
 
 @keyframes eq{
-  from{transform:scaleY(.45);opacity:.45}
-  to{transform:scaleY(1);opacity:1}
+  from{
+    transform:scaleY(.35);
+    opacity:.45;
+  }
+  to{
+    transform:scaleY(1);
+    opacity:1;
+  }
 }
 
 /* CARD */
 
 .card{
   position:relative;
-  background:rgba(15,15,20,.72);
-  border:1px solid rgba(255,255,255,.10);
-  border-radius:24px;
+  margin-bottom:16px;
   padding:22px;
-  margin-bottom:17px;
+  border-radius:24px;
+  border:1px solid var(--line);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.045),
+      rgba(255,255,255,.012) 45%,
+      rgba(255,210,28,.025)
+    ),
+    var(--card);
   box-shadow:
-    0 25px 80px rgba(0,0,0,.35),
+    0 25px 80px rgba(0,0,0,.5),
     inset 0 1px 0 rgba(255,255,255,.04);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  animation:fadeUp .7s ease;
+  backdrop-filter:blur(22px);
+  overflow:hidden;
 }
 
 .card::before{
   content:"";
   position:absolute;
-  inset:0;
-  border-radius:24px;
+  left:-30%;
+  top:0;
+  width:30%;
+  height:1px;
   background:linear-gradient(
-    135deg,
-    rgba(255,255,255,.05),
-    transparent 40%
+    90deg,
+    transparent,
+    var(--yellow),
+    transparent
   );
-  pointer-events:none;
+  animation:scan 5s linear infinite;
+  opacity:.7;
 }
 
-@keyframes fadeUp{
-  from{
-    opacity:0;
-    transform:translateY(20px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+@keyframes scan{
+  from{left:-30%}
+  to{left:110%}
 }
 
-/* GRID */
+/* FORM */
 
 .grid{
   display:grid;
@@ -264,37 +297,46 @@ h1{
 
 label{
   display:block;
-  color:#aaa8b2;
+  color:#929292;
   font-size:10px;
-  letter-spacing:1px;
+  font-weight:700;
+  letter-spacing:1.4px;
   margin-bottom:8px;
-  font-weight:bold;
 }
-
-/* INPUT */
 
 input,
 select{
   width:100%;
   padding:14px 15px;
   border-radius:13px;
-  border:1px solid #303039;
-  background:rgba(7,7,10,.8);
-  color:#fff;
+  border:1px solid #303030;
   outline:none;
+  color:#fff;
+  background:#0b0b0b;
   font-size:14px;
   transition:.25s;
 }
 
+input::placeholder{
+  color:#505050;
+}
+
 input:hover,
 select:hover{
-  border-color:#484652;
+  border-color:rgba(255,210,28,.25);
 }
 
 input:focus,
 select:focus{
-  border-color:#9a8bbd;
-  box-shadow:0 0 0 3px rgba(150,130,200,.10);
+  border-color:var(--yellow);
+  box-shadow:
+    0 0 0 3px rgba(255,210,28,.06),
+    0 0 22px rgba(255,210,28,.07);
+}
+
+select option{
+  background:#101010;
+  color:#fff;
 }
 
 /* BUTTONS */
@@ -303,23 +345,49 @@ select:focus{
   display:flex;
   flex-wrap:wrap;
   gap:9px;
-  margin-top:20px;
+  margin-top:19px;
 }
 
 button{
-  border:1px solid transparent;
+  position:relative;
+  overflow:hidden;
+  border:0;
   border-radius:13px;
-  padding:13px 17px;
+  padding:13px 18px;
   cursor:pointer;
-  font-weight:700;
-  color:#08080a;
-  background:linear-gradient(135deg,#fff,#ddd9e8);
-  transition:.25s;
+  font-weight:800;
+  font-size:13px;
+  color:#050505;
+  background:var(--yellow);
+  transition:.2s;
+  box-shadow:0 0 0 rgba(255,210,28,0);
+}
+
+button::after{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:70%;
+  height:100%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.45),
+    transparent
+  );
+  transform:skewX(-20deg);
+  transition:.45s;
+}
+
+button:hover::after{
+  left:130%;
 }
 
 button:hover{
   transform:translateY(-2px);
-  box-shadow:0 10px 25px rgba(255,255,255,.08);
+  box-shadow:
+    0 8px 28px rgba(255,210,28,.18);
 }
 
 button:active{
@@ -327,71 +395,127 @@ button:active{
 }
 
 button.secondary{
-  background:rgba(255,255,255,.055);
-  color:#fff;
-  border-color:#35353e;
+  color:#ddd;
+  background:#1b1b1b;
+  border:1px solid #343434;
+  box-shadow:none;
 }
 
 button.secondary:hover{
-  border-color:#65616f;
-  background:rgba(255,255,255,.09);
+  border-color:rgba(255,210,28,.3);
+  color:var(--yellow);
 }
 
 /* RESULT */
 
+.result-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#737373;
+  font-size:10px;
+  letter-spacing:2px;
+  margin-bottom:11px;
+}
+
+.result-label::before{
+  content:"";
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--yellow);
+  box-shadow:0 0 10px var(--yellow);
+}
+
 .result{
-  min-height:150px;
-  padding:21px;
-  border-radius:16px;
+  min-height:175px;
+  padding:22px;
+  border-radius:17px;
+  border:1px solid #292929;
   background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.035),
-      rgba(255,255,255,.01)
-    );
-  border:1px solid rgba(255,255,255,.08);
+    radial-gradient(
+      circle at top right,
+      rgba(255,210,28,.055),
+      transparent 35%
+    ),
+    #0a0a0a;
   font-size:18px;
-  line-height:1.7;
+  line-height:1.75;
   white-space:pre-wrap;
-  transition:.3s;
+  color:#f4f4f4;
+  transition:.25s;
 }
 
 .result.show{
-  animation:resultPop .35s ease;
+  animation:resultIn .35s ease;
 }
 
-@keyframes resultPop{
+@keyframes resultIn{
   from{
-    opacity:.3;
-    transform:scale(.99);
+    opacity:0;
+    transform:translateY(9px);
+    filter:blur(3px);
   }
   to{
     opacity:1;
-    transform:scale(1);
+    transform:translateY(0);
+    filter:blur(0);
   }
 }
 
 .tags{
   margin-top:14px;
-  color:#aaa6b2;
-  line-height:1.6;
+  color:var(--yellow);
+  font-size:13px;
+  line-height:1.7;
   word-break:break-word;
 }
 
 .counter{
-  margin-top:10px;
-  color:#62616a;
-  font-size:11px;
+  margin-top:13px;
+  color:#626262;
+  font-size:10px;
+  letter-spacing:1px;
 }
 
 /* FOOTER */
 
 .footer{
   text-align:center;
-  color:#55545e;
+  margin-top:28px;
+  color:#454545;
   font-size:10px;
   letter-spacing:2px;
-  margin-top:32px;
+}
+
+.footer span{
+  color:#777;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:24px;
+  z-index:99;
+  padding:11px 18px;
+  border-radius:999px;
+  color:#050505;
+  background:var(--yellow);
+  font-size:12px;
+  font-weight:800;
+  box-shadow:
+    0 10px 40px rgba(255,210,28,.2);
+  opacity:0;
+  transform:translate(-50%,20px);
+  pointer-events:none;
+  transition:.25s;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
 }
 
 /* MOBILE */
@@ -399,8 +523,8 @@ button.secondary:hover{
 @media(max-width:650px){
 
   .container{
-    width:90%;
-    padding-top:30px;
+    width:92%;
+    padding-top:27px;
   }
 
   .grid{
@@ -412,173 +536,148 @@ button.secondary:hover{
   }
 
   .card{
-    padding:17px;
-    border-radius:20px;
+    padding:16px;
+    border-radius:19px;
   }
 
   h1{
     letter-spacing:-2.5px;
   }
 
+  .subtitle{
+    font-size:12px;
+  }
+
+  .result{
+    min-height:185px;
+    padding:18px;
+    font-size:16px;
+  }
+
   button{
     flex:1;
     min-width:120px;
   }
-
-  .result{
-    font-size:16px;
-  }
-
 }
-
 </style>
 </head>
 
-
 <body>
 
-<!-- BACKGROUND PARTICLES -->
+<div class="light"></div>
 
 <div class="particles">
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
+  <i class="particle" style="left:5%;animation-duration:11s"></i>
+  <i class="particle" style="left:13%;animation-duration:8s;animation-delay:2s"></i>
+  <i class="particle" style="left:24%;animation-duration:13s;animation-delay:1s"></i>
+  <i class="particle" style="left:37%;animation-duration:9s;animation-delay:4s"></i>
+  <i class="particle" style="left:48%;animation-duration:12s;animation-delay:3s"></i>
+  <i class="particle" style="left:61%;animation-duration:10s;animation-delay:1s"></i>
+  <i class="particle" style="left:74%;animation-duration:14s;animation-delay:5s"></i>
+  <i class="particle" style="left:86%;animation-duration:9s;animation-delay:2s"></i>
+  <i class="particle" style="left:95%;animation-duration:12s;animation-delay:6s"></i>
 </div>
 
 
 <div class="container">
 
+  <header class="header">
 
-  <!-- HEADER -->
-
-  <div class="header">
-
-    <div class="mini">
+    <div class="brand">
+      <span class="dot"></span>
       LISANESIA
     </div>
 
-    <h1>
-      LISA — PRESS PLAY
-    </h1>
+    <h1>LISA — <span>PRESS PLAY</span></h1>
 
-    <div class="equalizer">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
+    <div class="subtitle">
+      Music Caption Generator
     </div>
 
-    <p>
-      Bilingual Caption Generator • 100 Captions
-    </p>
+    <div class="equalizer">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
 
-  </div>
+    <div class="stats">
+      <span class="stat">400 CAPTIONS</span>
+      <span class="stat">200 ID</span>
+      <span class="stat">200 EN</span>
+      <span class="stat">7 VIBES</span>
+    </div>
+
+  </header>
 
 
-  <!-- GENERATOR -->
-
-  <div class="card">
+  <section class="card">
 
     <div class="grid">
 
-
       <div>
-
-        <label>
-          LANGUAGE / BAHASA
-        </label>
+        <label>LANGUAGE / BAHASA</label>
 
         <select id="language">
-
-          <option value="id">
-            🇮🇩 Bahasa Indonesia
-          </option>
-
-          <option value="en">
-            🇬🇧 English
-          </option>
-
+          <option value="id">🇮🇩 Bahasa Indonesia</option>
+          <option value="en">🇬🇧 English</option>
         </select>
-
       </div>
 
 
       <div>
-
-        <label>
-          VIBE
-        </label>
+        <label>VIBE</label>
 
         <select id="vibe">
 
-          <option value="elegan">
-            ✨ Elegant
-          </option>
+          <option value="music">🎵 MUSIC</option>
 
-          <option value="music">
-            🎵 Music
-          </option>
+          <option value="hype">🔥 HYPE</option>
 
-          <option value="hype">
-            🔥 Hype / Support
-          </option>
+          <option value="repeat">🗿 REPEAT</option>
 
-          <option value="powerful">
-            ⚡ Powerful
-          </option>
+          <option value="beat">🎧 BEAT</option>
 
-          <option value="short">
-            🖤 Short
-          </option>
+          <option value="album">💿 ALBUM</option>
+
+          <option value="streaming">📡 STREAMING</option>
+
+          <option value="performance">🎤 PERFORMANCE</option>
 
         </select>
-
       </div>
 
 
       <div>
-
-        <label>
-          NAMA
-        </label>
+        <label>NAMA</label>
 
         <input
           id="name"
           value="LISA"
           placeholder="LISA"
         >
-
       </div>
 
 
       <div>
-
-        <label>
-          MOMEN / ALBUM
-        </label>
+        <label>MOMEN / ALBUM</label>
 
         <input
           id="moment"
           value="PRESS PLAY"
           placeholder="PRESS PLAY"
         >
-
       </div>
 
 
       <div class="full">
 
-        <label>
-          HASHTAG — BISA DIEDIT LANGSUNG
-        </label>
+        <label>HASHTAG / TAG — BISA DIUBAH</label>
 
         <input
           id="hashtags"
@@ -587,7 +686,6 @@ button.secondary:hover{
         >
 
       </div>
-
 
     </div>
 
@@ -614,12 +712,14 @@ button.secondary:hover{
 
     </div>
 
-  </div>
+  </section>
 
 
-  <!-- RESULT -->
+  <section class="card">
 
-  <div class="card">
+    <div class="result-label">
+      GENERATED CAPTION
+    </div>
 
     <div
       id="result"
@@ -636,266 +736,612 @@ button.secondary:hover{
     <div
       id="counter"
       class="counter"
-    ></div>
+    >
+      0 / 30 caption digunakan
+    </div>
 
-  </div>
-
-
-  <div class="footer">
-    LISA • PRESS PLAY • LISANESIA
-  </div>
+  </section>
 
 
+  <footer class="footer">
+    LISA <span>•</span> PRESS PLAY <span>•</span> LISANESIA
+  </footer>
+
+</div>
+
+
+<div id="toast" class="toast">
+  Copied ✓
 </div>
 
 
 <script>
 
 /* =========================================================
-   CAPTION DATABASE
-========================================================= */
+   400 CAPTIONS
+   200 INDONESIA + 200 ENGLISH
+   ========================================================= */
 
 const captions = {
 
-id: [
+id: {
 
-"PRESS PLAY dan biarkan era baru LISA dimulai.",
-"Album baru LISA akhirnya hadir. Waktunya replay.",
-"Suara LISA, energi baru, satu album yang luar biasa.",
-"PRESS PLAY adalah soundtrack baru hari ini.",
-"Setiap track membawa warna berbeda dari LISA.",
-"LISA kembali dengan musik yang siap memenuhi playlist.",
-"Tekan play dan nikmati perjalanan musik LISA.",
-"Album baru, era baru, energi baru dari LISA.",
-"PRESS PLAY, lalu ulangi lagi dari awal.",
-"Musik LISA selalu punya cara untuk meninggalkan kesan.",
-"Setiap lagu terasa seperti bagian baru dari perjalanan LISA.",
-"LISA dan PRESS PLAY, kombinasi yang akhirnya kita tunggu.",
-"Naikkan volume, waktunya menikmati album baru LISA.",
-"PRESS PLAY sampai track terakhir.",
-"Album ini resmi masuk playlist wajib hari ini.",
-"LISA hadir dengan warna musik yang semakin kuat.",
-"Satu album, banyak momen untuk dirayakan.",
-"Tekan play dan biarkan musik LISA mengambil alih.",
-"PRESS PLAY terasa semakin seru setiap kali diputar.",
-"LISA membuka bab baru lewat album ini.",
-"Musik baru LISA akhirnya ada di tangan kita.",
-"Setiap beat membawa energi khas LISA.",
-"Album baru ini layak didengarkan berulang kali.",
-"PRESS PLAY dan temukan track favoritmu.",
-"LISA membuat setiap lagu terasa punya karakter sendiri.",
-"Era baru LISA sudah dimulai.",
-"Putar sekali, lalu pasti ingin replay lagi.",
-"PRESS PLAY adalah alasan baru untuk menaikkan volume.",
-"LISA membawa energi baru ke dalam playlist.",
-"Setiap detik album ini terasa worth it.",
-"Musik LISA, momen kita.",
-"Album baru LISA sudah waktunya memenuhi headphone.",
-"PRESS PLAY dan nikmati setiap track tanpa skip.",
-"LISA terus berkembang, dan musiknya ikut tumbuh.",
-"Satu tombol play membuka dunia baru LISA.",
-"Album ini punya energi yang sulit dilepas.",
-"Tekan play, dengarkan, ulangi.",
-"LISA kembali dan langsung mengubah suasana.",
-"PRESS PLAY, waktunya merayakan musik LISA.",
-"Setiap track punya cerita dan suasananya sendiri.",
-"Album baru ini terasa seperti awal dari sesuatu yang besar.",
-"LISA menghadirkan era baru dengan musiknya sendiri.",
-"Replay lagi karena sekali dengar belum cukup.",
-"PRESS PLAY dan biarkan playlist hari ini berubah.",
-"LISA ada di playlist, dan itu sudah cukup jadi alasan untuk play.",
-"Musik baru LISA akhirnya menjadi bagian dari hari ini.",
-"Era baru, musik baru, tetap LISA.",
-"PRESS PLAY sampai hafal setiap momennya.",
-"LISA, album barumu akhirnya kami dengarkan."
-
+music: [
+"PRESS PLAY dan biarkan musik LISA mengambil alih.",
+"Musik LISA selalu punya cara sendiri untuk terasa spesial.",
+"Satu lagu LISA, seribu alasan untuk terus mendengarkan.",
+"Musik LISA bukan cuma didengar, tapi juga dirasakan.",
+"Ketika suara LISA masuk, dunia terasa sedikit berbeda.",
+"PRESS PLAY dan nikmati perjalanan musik LISA.",
+"LISA membawa warna baru ke dalam playlist.",
+"Tidak perlu banyak kata ketika musik LISA sudah berbicara.",
+"Kalau musiknya LISA, tombol replay selalu siap.",
+"Satu playlist, satu nama: LISA.",
+"Musik yang tepat selalu menemukan waktunya.",
+"PRESS PLAY untuk kembali ke dunia musik LISA.",
+"LISA tahu bagaimana membuat sebuah lagu terasa hidup.",
+"Hari ini ditemani musik LISA dari awal sampai akhir.",
+"Setiap nada dari LISA punya ceritanya sendiri.",
+"Musik LISA membuat momen sederhana terasa lebih berarti.",
+"Playlist terasa lengkap ketika ada LISA di dalamnya.",
+"Satu suara yang selalu berhasil mencuri perhatian.",
+"PRESS PLAY dan biarkan lagunya berbicara.",
+"Musik LISA selalu punya tempat di playlist gue.",
+"Ketika musik bertemu karakter, hasilnya adalah LISA.",
+"Satu track, satu mood, satu LISA.",
+"Suara LISA dan headphone adalah kombinasi sempurna.",
+"Musik LISA cocok menemani setiap suasana.",
+"Putar lagunya dan rasakan setiap detailnya.",
+"LISA membuat musik terasa seperti sebuah pengalaman.",
+"PRESS PLAY, volume naik, dunia hilang sejenak.",
+"Musik LISA selalu terdengar fresh.",
+"Setiap detik lagunya layak didengarkan.",
+"LISA mengubah suara menjadi sebuah perjalanan.",
+"Kalau sudah masuk playlist, susah untuk dilewati.",
+"Musik LISA adalah alasan untuk menekan play lagi.",
+"Satu lagu selesai, tapi rasanya ingin mulai lagi.",
+"PRESS PLAY dan biarkan musik memenuhi ruangan.",
+"Playlist hari ini resmi milik LISA.",
+"Musik LISA punya energi yang sulit dijelaskan.",
+"Dari intro sampai akhir, semuanya terasa tepat.",
+"LISA dan musik selalu jadi kombinasi yang kuat.",
+"Tekan play, dengarkan, ulangi."
 ],
 
-en: [
+hype: [
+"PRESS PLAY. Saatnya bikin era LISA terdengar di mana-mana.",
+"Naikkan volume, LISA sedang mengambil alih playlist.",
+"LET'S GO! Saatnya dukung musik LISA.",
+"Era baru, musik baru, energi baru.",
+"LISA sudah siap. Kita juga harus siap.",
+"PRESS PLAY dan kasih musik LISA energi terbaik.",
+"Jangan cuma dengar, ikut ramaikan.",
+"Volume naik. Semangat naik. LISA naik.",
+"Musik LISA sedang ON dan kita tidak akan berhenti.",
+"Saatnya bikin suara LISA semakin keras.",
+"PLAY IT LOUD. LISA DESERVES IT.",
+"Era LISA bukan untuk dilewatkan.",
+"Tekan play dan mulai pestanya.",
+"Semua playlist, waktunya masuk mode LISA.",
+"Kalau LISA play, kita gas.",
+"Let's make some noise for LISA.",
+"Musiknya sudah mulai, sekarang giliran kita.",
+"PRESS PLAY dan bawa energinya ke timeline.",
+"Jangan kasih tombol pause kesempatan.",
+"LISA ON REPEAT, MOOD ON FIRE.",
+"Satu tombol: PLAY. Satu nama: LISA.",
+"Naikkan volume dan nikmati eranya.",
+"Kita dengarkan, kita dukung, kita ulangi.",
+"Musik LISA? GAS TERUS.",
+"PRESS PLAY sampai playlist ikut bergetar.",
+"Era ini harus terdengar keras.",
+"Time to turn the volume up for LISA.",
+"Semua orang siap? LISA sedang diputar.",
+"Track jalan, energi jalan.",
+"Let's keep LISA playing.",
+"Kalau bukan sekarang, kapan lagi?",
+"Musik LISA masuk, mode support langsung ON.",
+"PLAY. REPLAY. SUPPORT. ULANGI.",
+"Biar musik LISA yang bikin suasana.",
+"Full volume untuk era ini.",
+"Jangan berhenti memainkan musik LISA.",
+"PRESS PLAY dan bikin momentum.",
+"Playlist penuh LISA, energi penuh.",
+"LISA PLAYING. WE'RE MOVING."
+],
 
-"PRESS PLAY and let LISA's new era begin.",
-"LISA's new album is finally here. Time to replay.",
-"New music, new energy, one unforgettable LISA era.",
-"PRESS PLAY is today's new soundtrack.",
-"Every track brings another color of LISA.",
-"LISA is back with music ready to fill our playlists.",
-"Hit play and enjoy LISA's musical journey.",
-"New album, new era, new energy from LISA.",
-"PRESS PLAY, then start it all over again.",
-"LISA's music always finds a way to leave an impression.",
-"Every song feels like another chapter in LISA's journey.",
-"LISA and PRESS PLAY, the moment we have been waiting for.",
-"Turn up the volume, it's time for LISA's new album.",
-"PRESS PLAY all the way to the final track.",
-"This album officially belongs on today's must-play list.",
-"LISA returns with an even stronger musical color.",
-"One album, so many moments to celebrate.",
-"Hit play and let LISA's music take over.",
-"PRESS PLAY gets better with every replay.",
-"LISA opens a new chapter with this album.",
-"New LISA music is finally here for us to enjoy.",
-"Every beat carries that unmistakable LISA energy.",
-"This new album deserves more than one listen.",
-"PRESS PLAY and find your favorite track.",
-"LISA makes every song feel like it has its own character.",
-"The new LISA era has officially begun.",
-"One play quickly turns into another replay.",
-"PRESS PLAY is another reason to turn the volume up.",
-"LISA brings fresh energy into the playlist.",
-"Every second of this album feels worth the listen.",
-"LISA's music, our moment.",
-"LISA's new album is ready to fill our headphones.",
-"PRESS PLAY and enjoy every track without skipping.",
-"LISA keeps evolving, and her music grows with her.",
-"One play button opens a new world of LISA.",
-"This album carries an energy that is hard to let go of.",
-"Hit play, listen, repeat.",
-"LISA is back and instantly changing the mood.",
-"PRESS PLAY, it's time to celebrate LISA's music.",
-"Every track has its own story and atmosphere.",
-"This new album feels like the beginning of something bigger.",
-"LISA brings a new era through music that feels like her own.",
-"Replay it, because one listen is never enough.",
-"PRESS PLAY and let today's playlist change completely.",
-"LISA is on the playlist, and that's reason enough to press play.",
-"New LISA music is finally part of today.",
-"New era, new music, still LISA.",
-"PRESS PLAY until every moment feels familiar.",
-"LISA, your new album is finally playing."
+repeat: [
+"PRESS PLAY. Lalu tekan replay lagi.",
+"Satu kali dengar tidak pernah cukup.",
+"LISA masuk playlist, replay langsung aktif.",
+"Replay sampai hafal setiap nadanya.",
+"Play sekali, ulang berkali-kali.",
+"Track selesai? Replay.",
+"Kalau lagunya LISA, tombol replay jadi favorit.",
+"Masih mau berhenti? Gue belum.",
+"PRESS PLAY → REPEAT → PRESS PLAY.",
+"Satu lagu bisa diputar berkali-kali tanpa bosan.",
+"LISA on repeat sepanjang hari.",
+"Track ini belum selesai di kepala gue.",
+"Replay lagi karena satu kali belum cukup.",
+"Playlist boleh berganti, LISA tetap repeat.",
+"Mode hari ini: LISA REPEAT.",
+"Kalau suka, ya putar lagi.",
+"Repeat sampai mood-nya pas.",
+"Musik LISA memang susah dilepas.",
+"Play lagi. Kenapa harus berhenti?",
+"Replay adalah jawaban paling sederhana.",
+"Track favorit sudah kembali diputar.",
+"LISA + REPEAT = kombinasi wajib.",
+"Belum bosan. Justru baru mulai.",
+"PRESS PLAY dan jangan cari tombol pause.",
+"Replay terus sampai malam.",
+"Playlist stuck di LISA dan gue tidak keberatan.",
+"Satu track, berkali-kali diputar.",
+"Repeat mode: ON.",
+"Masih di lagu yang sama? Iya.",
+"LISA tetap jadi pilihan pertama untuk replay.",
+"Track selesai, tangan otomatis tekan ulang.",
+"Kalau enak didengar, kenapa berhenti?",
+"Replay lagi untuk menangkap setiap detail.",
+"Musik ini punya alasan untuk diputar lagi.",
+"PRESS PLAY lagi, obviously.",
+"LISA sedang menemani replay session.",
+"Ulangi sampai lagu ini terasa seperti rumah.",
+"Replay tanpa batas untuk LISA.",
+"Playlist hari ini: play, replay, repeat.",
+"Masih repeat. Masih suka."
+],
 
+beat: [
+"Biarkan beat-nya membawa suasana.",
+"Beat masuk, mood langsung berubah.",
+"LISA dan beat yang tidak bisa dilewatkan.",
+"Rasakan setiap beat dari PRESS PLAY.",
+"Satu beat bisa mengubah seluruh vibe.",
+"Ketika beat mulai jalan, susah untuk diam.",
+"Beat-nya masuk tepat ke mood.",
+"Musik LISA punya rhythm yang bikin ketagihan.",
+"PRESS PLAY dan ikuti beat-nya.",
+"Setiap beat terasa punya energi sendiri.",
+"Headphone on, beat on.",
+"LISA membuat setiap rhythm terasa hidup.",
+"Beat jalan, pikiran ikut mengalir.",
+"Suara, rhythm, dan energi dalam satu track.",
+"Beat yang tepat selalu punya efek berbeda.",
+"Jangan lewatkan detail kecil di setiap beat.",
+"PRESS PLAY dan dengarkan sampai beat terakhir.",
+"Ketika rhythm bertemu karakter LISA.",
+"Beat ini memang dibuat untuk replay.",
+"Satu track dengan banyak layer untuk dinikmati.",
+"Dengarkan beat-nya, rasakan energinya.",
+"LISA membawa rhythm yang khas.",
+"Beat masuk, mood naik.",
+"Musik terasa berbeda ketika beat-nya tepat.",
+"Setiap ketukan punya tempatnya sendiri.",
+"Headphone jadi tempat terbaik untuk menikmati beat ini.",
+"PRESS PLAY. Let the beat speak.",
+"Beat kuat, vibe kuat.",
+"Rasakan rhythm dari awal sampai akhir.",
+"LISA tahu cara membuat beat terasa memorable.",
+"Setiap beat membuat track ini semakin hidup."
+],
+
+album: [
+"PRESS PLAY adalah perjalanan yang layak didengarkan.",
+"Satu album, banyak momen untuk diingat.",
+"Album ini punya tempat sendiri di playlist.",
+"PRESS PLAY dan nikmati setiap bagian albumnya.",
+"LISA membawa cerita baru lewat musik.",
+"Setiap track menambah warna pada album.",
+"Album ini dibuat untuk didengarkan berulang kali.",
+"PRESS PLAY dari track pertama sampai terakhir.",
+"Satu album, satu era, banyak cerita.",
+"Biarkan musik membawa kita melewati seluruh album.",
+"Setiap lagu terasa seperti bagian dari satu perjalanan.",
+"Album mode: ON.",
+"PRESS PLAY dan jangan lewatkan satu track pun.",
+"LISA mengisi playlist dengan era yang baru.",
+"Album ini pantas mendapat volume maksimal.",
+"Satu track membuka cerita, track berikutnya melanjutkan.",
+"PRESS PLAY adalah mood hari ini.",
+"Album lengkap, headphone siap.",
+"Menikmati album ini dari awal sampai akhir.",
+"Setiap track punya karakter masing-masing.",
+"LISA dan album baru, kombinasi yang ditunggu.",
+"Album ini sudah masuk playlist utama.",
+"PRESS PLAY dan biarkan seluruh album berjalan.",
+"Satu album yang bisa menemani banyak suasana.",
+"Tracklist sedang menemani hari ini.",
+"Album ini punya banyak detail untuk ditemukan.",
+"Putar dari awal, nikmati sampai akhir.",
+"LISA membuat satu album terasa seperti perjalanan.",
+"PRESS PLAY. The album is playing.",
+"Setiap track punya alasan untuk diputar.",
+"Album ini resmi jadi bagian dari playlist gue."
+],
+
+streaming: [
+"Streaming time. PRESS PLAY untuk LISA.",
+"Satu play adalah satu bentuk dukungan.",
+"Terus dengarkan musik LISA dan nikmati eranya.",
+"Playlist sudah siap untuk LISA.",
+"PRESS PLAY dan biarkan musik terus berjalan.",
+"Putar lagunya, nikmati musiknya, dukung eranya.",
+"Streaming session dimulai.",
+"LISA sedang playing di playlist gue.",
+"Jangan lupa kasih musik LISA waktu untuk didengar.",
+"Setiap play ikut membuat momentum.",
+"Playlist ON, LISA ON.",
+"Streaming sambil menikmati setiap detik musiknya.",
+"PRESS PLAY dan keep it playing.",
+"Musik LISA layak terus terdengar.",
+"Saatnya isi playlist dengan LISA.",
+"Play, enjoy, repeat.",
+"LISA playing sepanjang hari.",
+"Terus putar musiknya dan nikmati setiap track.",
+"Streaming mode: ON.",
+"Kalau suka musiknya, terus dengarkan.",
+"PRESS PLAY dan biarkan angka mengikuti musiknya.",
+"Playlist hari ini penuh LISA.",
+"Satu sesi streaming, banyak lagu favorit.",
+"Keep LISA playing.",
+"Musik berjalan, support berjalan.",
+"Streaming sambil menikmati era baru LISA.",
+"Jangan biarkan playlist berhenti terlalu cepat.",
+"Tekan play dan mulai sesi musik.",
+"LISA masuk playlist, sesi streaming dimulai.",
+"Keep the music playing."
+],
+
+performance: [
+"LISA membuat musik terasa hidup saat dibawakan.",
+"Setiap nada terasa lebih kuat ketika LISA membawakannya.",
+"Performance LISA selalu punya energi sendiri.",
+"Suara dan presence LISA menyatu dengan musik.",
+"PRESS PLAY dan nikmati musikalitas LISA.",
+"LISA tahu bagaimana membawa sebuah lagu ke level berbeda.",
+"Setiap bagian performance terasa penuh karakter.",
+"Musik menjadi hidup ketika LISA mulai tampil.",
+"Vocal, rhythm, dan energy dalam satu performance.",
+"LISA membuat setiap track terasa punya identitas.",
+"Performance yang membuat lagu semakin berkesan.",
+"Setiap detail delivery LISA terasa intentional.",
+"PRESS PLAY untuk menikmati performance dari awal.",
+"LISA membawa emosinya langsung ke dalam musik.",
+"Stage presence dan musik bertemu dengan sempurna.",
+"Setiap performance punya cerita sendiri.",
+"LISA membuat setiap beat terasa lebih hidup.",
+"Musik dan performance menyatu dengan natural.",
+"Ketika LISA tampil, musik terasa berbeda.",
+"Setiap nada punya impact.",
+"LISA tahu bagaimana menghidupkan sebuah track.",
+"Performance ini pantas didengarkan lagi.",
+"PRESS PLAY dan nikmati setiap detailnya.",
+"Musik, ekspresi, dan energi dalam satu penampilan.",
+"LISA membuat track ini terasa lebih powerful.",
+"Setiap performance meninggalkan kesan.",
+"Suara LISA menjadi bagian penting dari atmosfer.",
+"Track ini benar-benar hidup saat dibawakan.",
+"Musik terasa lengkap dengan performance LISA.",
+"LISA membawa karakter ke setiap bagian lagu."
 ]
 
-};
-/* =========================================================
-   VIBE FILTER
-========================================================= */
-
-const vibeKeywords = {
-
-  elegan: [
-    "era",
-    "chapter",
-    "color",
-    "character",
-    "journey",
-    "bab",
-    "warna",
-    "perjalanan",
-    "karakter"
-  ],
-
-  music: [
-    "track",
-    "music",
-    "musik",
-    "playlist",
-    "beat",
-    "album",
-    "play",
-    "putar",
-    "replay",
-    "dengarkan",
-    "headphone",
-    "volume"
-  ],
-
-  hype: [
-    "celebrate",
-    "merayakan",
-    "volume",
-    "wajib",
-    "must-play",
-    "akhirnya",
-    "finally",
-    "hadir",
-    "kembali",
-    "alasan"
-  ],
-
-  powerful: [
-    "energy",
-    "energi",
-    "strong",
-    "kuat",
-    "take over",
-    "mengambil alih",
-    "mengubah",
-    "evolving",
-    "berkembang",
-    "tumbuh",
-    "dunia baru"
-  ],
-
-  short: [
-    "Musik LISA, momen kita.",
-    "Era baru, musik baru, tetap LISA.",
-    "Tekan play, dengarkan, ulangi.",
-    "Hit play, listen, repeat.",
-    "LISA's music, our moment.",
-    "New era, new music, still LISA."
-  ]
-
-};
+},
 
 
-/* =========================================================
-   GET VIBE CAPTIONS
-========================================================= */
+en: {
 
-function getVibeCaptions(language, vibe){
+music: [
+"PRESS PLAY and let LISA's music take over.",
+"LISA's music always finds a way to feel special.",
+"One LISA song, a thousand reasons to keep listening.",
+"LISA's music is not just heard, it is felt.",
+"When LISA's voice comes in, everything feels different.",
+"PRESS PLAY and enjoy LISA's musical journey.",
+"LISA brings a new color to every playlist.",
+"No words needed when LISA's music speaks.",
+"When LISA plays, the replay button is always ready.",
+"One playlist, one name: LISA.",
+"The right music always finds the right moment.",
+"PRESS PLAY and enter LISA's musical world.",
+"LISA knows how to make a song feel alive.",
+"Today sounds better with LISA on the playlist.",
+"Every note from LISA carries its own story.",
+"LISA's music makes simple moments feel special.",
+"A playlist feels better with LISA in it.",
+"One voice that always catches attention.",
+"PRESS PLAY and let the music speak.",
+"LISA always has a place on my playlist.",
+"When music meets character, you get LISA.",
+"One track, one mood, one LISA.",
+"LISA and headphones are the perfect combination.",
+"LISA's music fits every kind of mood.",
+"Turn the song on and catch every detail.",
+"LISA turns music into an experience.",
+"PRESS PLAY, turn it up, disappear for a while.",
+"LISA's music always sounds fresh.",
+"Every second of the song deserves to be heard.",
+"LISA turns sound into a journey.",
+"Once LISA enters the playlist, skipping is not an option.",
+"LISA's music is a reason to press play again.",
+"One song ends, but I want to start it again.",
+"PRESS PLAY and let the music fill the room.",
+"Today's playlist officially belongs to LISA.",
+"LISA's music carries an energy of its own.",
+"From the intro to the ending, everything feels right.",
+"LISA and music will always be a powerful combination.",
+"Press play, listen, repeat."
+],
 
-  const list = captions[language];
+hype: [
+"PRESS PLAY. It's time to make LISA's era heard everywhere.",
+"Turn it up, LISA is taking over the playlist.",
+"LET'S GO! Time to support LISA's music.",
+"New era, new music, new energy.",
+"LISA is ready. We better be ready too.",
+"PRESS PLAY and give LISA's music your best energy.",
+"Don't just listen, make some noise.",
+"Volume up. Energy up. LISA up.",
+"LISA is ON and we're not stopping.",
+"Time to make LISA's sound even louder.",
+"PLAY IT LOUD. LISA DESERVES IT.",
+"LISA's era is not meant to be skipped.",
+"Press play and start the celebration.",
+"Every playlist needs a little LISA energy.",
+"When LISA plays, we go all in.",
+"Let's make some noise for LISA.",
+"The music has started, now it's our turn.",
+"PRESS PLAY and bring the energy to the timeline.",
+"Don't give the pause button a chance.",
+"LISA ON REPEAT, MOOD ON FIRE.",
+"One button: PLAY. One name: LISA.",
+"Turn it up and enjoy the era.",
+"We listen, we support, we replay.",
+"LISA's music? LET'S GO.",
+"PRESS PLAY until the playlist starts shaking.",
+"This era deserves to be heard loud.",
+"Time to turn the volume up for LISA.",
+"Everyone ready? LISA is playing.",
+"Track on, energy on.",
+"Let's keep LISA playing.",
+"If not now, when?",
+"LISA's music on, support mode on.",
+"PLAY. REPLAY. SUPPORT. REPEAT.",
+"Let LISA's music set the mood.",
+"Full volume for this era.",
+"Don't stop playing LISA.",
+"PRESS PLAY and keep the momentum going.",
+"Playlist full of LISA, energy full too.",
+"LISA PLAYING. WE'RE MOVING."
+],
 
-  /* SHORT */
-  if(vibe === "short"){
+repeat: [
+"PRESS PLAY. Then hit replay again.",
+"One listen is never enough.",
+"LISA enters the playlist and replay mode activates.",
+"Replay until you know every note.",
+"Play once, replay forever.",
+"Track finished? Replay.",
+"When it's LISA, the replay button becomes a favorite.",
+"Still stopping? I'm not.",
+"PRESS PLAY → REPEAT → PRESS PLAY.",
+"One song can be played endlessly without getting old.",
+"LISA on repeat all day.",
+"The track ended but it's still in my head.",
+"Replay because once was never enough.",
+"Playlists can change, LISA stays on repeat.",
+"Today's mode: LISA REPEAT.",
+"If you love it, play it again.",
+"Repeat until the mood feels right.",
+"LISA's music is hard to let go.",
+"Why stop when we can play it again?",
+"Replay is the easiest answer.",
+"The favorite track is playing again.",
+"LISA + REPEAT = mandatory.",
+"Not bored. Just getting started.",
+"PRESS PLAY and forget the pause button.",
+"Replay until tonight.",
+"Playlist stuck on LISA and I'm not complaining.",
+"One track, countless replays.",
+"Repeat mode: ON.",
+"Still listening to the same song? Yes.",
+"LISA stays my first choice for replay.",
+"Track ends, hand automatically hits replay.",
+"If it sounds good, why stop?",
+"Replay to catch every little detail.",
+"This song deserves another play.",
+"PRESS PLAY again, obviously.",
+"LISA is keeping the replay session alive.",
+"Repeat until this song feels like home.",
+"Unlimited replay for LISA.",
+"Today's playlist: play, replay, repeat.",
+"Still repeating. Still loving it."
+],
 
-    return list.filter(caption =>
-      caption.split(/\s+/).length <= 8
-    );
+beat: [
+"Let the beat set the mood.",
+"The beat comes in and everything changes.",
+"LISA and a beat you cannot skip.",
+"Feel every beat of PRESS PLAY.",
+"One beat can change the whole vibe.",
+"Once the beat starts, standing still gets harder.",
+"The beat hits exactly where it should.",
+"LISA's music has a rhythm that stays with you.",
+"PRESS PLAY and follow the beat.",
+"Every beat carries its own energy.",
+"Headphones on, beat on.",
+"LISA makes every rhythm feel alive.",
+"Beat moving, thoughts flowing.",
+"Sound, rhythm, and energy in one track.",
+"The right beat always hits differently.",
+"Don't miss the little details in every beat.",
+"PRESS PLAY and listen until the final beat.",
+"When rhythm meets LISA's character.",
+"This beat was made for replay.",
+"One track with layers worth discovering.",
+"Listen to the beat, feel the energy.",
+"LISA brings a rhythm of her own.",
+"Beat on, mood up.",
+"Music feels different when the beat is right.",
+"Every hit has its own place.",
+"Headphones are the perfect place for this beat.",
+"PRESS PLAY. Let the beat speak.",
+"Strong beat, strong vibe.",
+"Feel the rhythm from beginning to end."
+],
 
-  }
+album: [
+"PRESS PLAY is a journey worth listening to.",
+"One album, so many moments to remember.",
+"This album already has its own place on my playlist.",
+"PRESS PLAY and enjoy every part of the album.",
+"LISA tells a new story through music.",
+"Every track adds another color to the album.",
+"This album was made to be played again and again.",
+"PRESS PLAY from the first track to the last.",
+"One album, one era, countless stories.",
+"Let the music take us through the whole album.",
+"Every song feels like part of one journey.",
+"Album mode: ON.",
+"PRESS PLAY and don't skip a single track.",
+"LISA brings a new era to the playlist.",
+"This album deserves maximum volume.",
+"One track opens the story, the next one continues it.",
+"PRESS PLAY is today's mood.",
+"Album ready, headphones ready.",
+"Enjoying this album from beginning to end.",
+"Every track has its own character.",
+"LISA and a new album, the combination we waited for.",
+"This album is officially on my main playlist.",
+"PRESS PLAY and let the whole album run.",
+"One album that fits so many moods.",
+"The tracklist is keeping me company today.",
+"This album has so many details to discover.",
+"Start from the beginning and enjoy the whole thing.",
+"LISA makes an album feel like a journey.",
+"PRESS PLAY. The album is playing.",
+"Every track has a reason to be played."
+],
 
-  const keywords =
-    vibeKeywords[vibe] || [];
+streaming: [
+"Streaming time. PRESS PLAY for LISA.",
+"One play is one way to show support.",
+"Keep listening to LISA and enjoy the era.",
+"The playlist is ready for LISA.",
+"PRESS PLAY and keep the music moving.",
+"Play the music, enjoy the sound, support the era.",
+"Streaming session starts now.",
+"LISA is playing on my playlist.",
+"Give LISA's music the time it deserves.",
+"Every play helps build the momentum.",
+"Playlist ON, LISA ON.",
+"Streaming while enjoying every second.",
+"PRESS PLAY and keep it playing.",
+"LISA's music deserves to keep being heard.",
+"Time to fill the playlist with LISA.",
+"Play, enjoy, repeat.",
+"LISA playing all day.",
+"Keep the music going and enjoy every track.",
+"Streaming mode: ON.",
+"If you love the music, keep listening.",
+"PRESS PLAY and let the numbers follow the music.",
+"Today's playlist is full of LISA.",
+"One streaming session, many favorite tracks.",
+"Keep LISA playing.",
+"Music moving, support moving.",
+"Streaming while enjoying LISA's new era.",
+"Don't let the playlist stop too soon.",
+"Press play and start the music session.",
+"LISA enters the playlist, streaming begins.",
+"Keep the music playing."
+],
 
-  const filtered =
-    list.filter(caption => {
-
-      const text =
-        caption.toLowerCase();
-
-      return keywords.some(keyword =>
-        text.includes(keyword.toLowerCase())
-      );
-
-    });
-
-  /*
-    Kalau hasil terlalu sedikit,
-    tetap gunakan database utama.
-  */
-
-  return filtered.length >= 3
-    ? filtered
-    : list;
+performance: [
+"LISA makes music feel alive when she performs it.",
+"Every note feels stronger when LISA delivers it.",
+"LISA's performance carries an energy of its own.",
+"Voice and presence come together in LISA's music.",
+"PRESS PLAY and enjoy LISA's musicality.",
+"LISA knows how to take a song to another level.",
+"Every part of the performance feels full of character.",
+"Music comes alive when LISA starts performing.",
+"Vocal, rhythm, and energy in one performance.",
+"LISA gives every track its own identity.",
+"A performance that makes the song even more memorable.",
+"Every detail of LISA's delivery feels intentional.",
+"PRESS PLAY and enjoy the performance from start to finish.",
+"LISA brings emotion directly into the music.",
+"Stage presence and music coming together perfectly.",
+"Every performance tells its own story.",
+"LISA makes every beat feel more alive.",
+"Music and performance naturally become one.",
+"When LISA performs, the music feels different.",
+"Every note has an impact.",
+"LISA knows how to bring a track to life.",
+"This performance deserves another listen.",
+"PRESS PLAY and catch every detail.",
+"Music, expression, and energy in one performance.",
+"LISA makes this track feel even more powerful.",
+"Every performance leaves an impression.",
+"LISA's voice becomes part of the atmosphere.",
+"This track truly comes alive in performance.",
+"Music feels complete with LISA's performance."
+]
 
 }
 
-/* =========================================================
-   ANTI-REPEAT
-========================================================= */
-
-const used = {
-  id:new Set(),
-  en:new Set()
 };
 
-let currentCaption="";
+
+/* =========================================================
+   VIBE INFO
+   ========================================================= */
+
+const vibeNames = {
+  music:"MUSIC",
+  hype:"HYPE",
+  repeat:"REPEAT",
+  beat:"BEAT",
+  album:"ALBUM",
+  streaming:"STREAMING",
+  performance:"PERFORMANCE"
+};
+
+
+/* =========================================================
+   USED CAPTIONS
+   ========================================================= */
+
+const used = {
+  id:{
+    music:new Set(),
+    hype:new Set(),
+    repeat:new Set(),
+    beat:new Set(),
+    album:new Set(),
+    streaming:new Set(),
+    performance:new Set()
+  },
+
+  en:{
+    music:new Set(),
+    hype:new Set(),
+    repeat:new Set(),
+    beat:new Set(),
+    album:new Set(),
+    streaming:new Set(),
+    performance:new Set()
+  }
+};
+
+
+let currentCaption = "";
 
 
 /* =========================================================
    GENERATE
-========================================================= */
+   ========================================================= */
 
 function generateCaption(){
 
@@ -914,108 +1360,33 @@ function generateCaption(){
   const hashtags =
     document.getElementById("hashtags").value.trim();
 
-
-  /* Ambil caption sesuai VIBE */
-
   const list =
-    getVibeCaptions(language, vibe);
+    captions[language][vibe];
+
+  const usedSet =
+    used[language][vibe];
 
 
-  /*
-    Reset kalau semua caption dari vibe
-    tersebut sudah pernah digunakan.
-  */
+  /* reset kalau semua sudah terpakai */
 
-  if(used[language].size >= captions[language].length){
-
-    used[language].clear();
-
+  if(usedSet.size >= list.length){
+    usedSet.clear();
   }
 
 
-  let caption;
-  let attempts = 0;
-
+  let index;
 
   do{
-
-    const randomIndex =
+    index =
       Math.floor(Math.random() * list.length);
-
-    caption =
-      list[randomIndex];
-
-    attempts++;
-
-  }
-
-  while(
-    used[language].has(
-      captions[language].indexOf(caption)
-    )
-    &&
-    attempts < 100
-  );
+  }while(usedSet.has(index));
 
 
-  const originalIndex =
-    captions[language].indexOf(caption);
-
-
-  used[language].add(originalIndex);
+  usedSet.add(index);
 
 
   currentCaption =
-    caption
-      .replaceAll("LISA", name)
-      .replaceAll("PRESS PLAY", moment);
-
-
-  const result =
-    document.getElementById("result");
-
-
-  result.classList.remove("show");
-
-  void result.offsetWidth;
-
-  result.classList.add("show");
-
-
-  result.textContent =
-    currentCaption;
-
-
-  document.getElementById("tags").textContent =
-    hashtags;
-
-
-  document.getElementById("counter").textContent =
-    `${used[language].size} / ${captions[language].length} caption digunakan • ${vibe.toUpperCase()}`;
-
-}
-
-
-  let randomIndex;
-
-
-  do{
-
-    randomIndex =
-      Math.floor(Math.random()*list.length);
-
-  }
-
-  while(
-    used[language].has(randomIndex)
-  );
-
-
-  used[language].add(randomIndex);
-
-
-  currentCaption =
-    list[randomIndex]
+    list[index]
       .replaceAll("LISA",name)
       .replaceAll("PRESS PLAY",moment);
 
@@ -1028,11 +1399,10 @@ function generateCaption(){
 
   void result.offsetWidth;
 
-  result.classList.add("show");
-
-
   result.textContent =
     currentCaption;
+
+  result.classList.add("show");
 
 
   document.getElementById("tags").textContent =
@@ -1040,43 +1410,49 @@ function generateCaption(){
 
 
   document.getElementById("counter").textContent =
-    `${used[language].size} / ${list.length} caption digunakan`;
-
+    `${usedSet.size} / ${list.length} caption digunakan • ${vibeNames[vibe]} • ${language.toUpperCase()}`;
 }
 
 
 /* =========================================================
-   COPY
-========================================================= */
+   COPY CAPTION
+   ========================================================= */
 
-function copyCaption(){
+async function copyCaption(){
 
   if(!currentCaption){
-
     generateCaption();
-
   }
 
-  navigator.clipboard.writeText(
-    currentCaption
-  );
+  try{
 
+    await navigator.clipboard.writeText(
+      currentCaption
+    );
+
+    showToast("Caption copied ✓");
+
+  }catch(error){
+
+    fallbackCopy(currentCaption);
+
+  }
 }
 
 
-function copyAll(){
+/* =========================================================
+   COPY ALL
+   ========================================================= */
+
+async function copyAll(){
 
   if(!currentCaption){
-
     generateCaption();
-
   }
 
   const hashtags =
     document.getElementById("hashtags")
-      .value
-      .trim();
-
+      .value.trim();
 
   const finalText =
     hashtags
@@ -1084,13 +1460,114 @@ function copyAll(){
       : currentCaption;
 
 
-  navigator.clipboard.writeText(
-    finalText
-  );
+  try{
+
+    await navigator.clipboard.writeText(
+      finalText
+    );
+
+    showToast("Caption + tags copied ✓");
+
+  }catch(error){
+
+    fallbackCopy(finalText);
+
+  }
+}
+
+
+/* =========================================================
+   FALLBACK COPY
+   ========================================================= */
+
+function fallbackCopy(text){
+
+  const textarea =
+    document.createElement("textarea");
+
+  textarea.value = text;
+
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
+
+  document.body.appendChild(textarea);
+
+  textarea.focus();
+  textarea.select();
+
+  document.execCommand("copy");
+
+  textarea.remove();
+
+  showToast("Copied ✓");
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+let toastTimer;
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(()=>{
+      toast.classList.remove("show");
+    },1800);
+}
+
+
+/* =========================================================
+   LANGUAGE / VIBE CHANGE
+   ========================================================= */
+
+document
+  .getElementById("language")
+  .addEventListener("change", updateCounter);
+
+document
+  .getElementById("vibe")
+  .addEventListener("change", updateCounter);
+
+
+function updateCounter(){
+
+  const language =
+    document.getElementById("language").value;
+
+  const vibe =
+    document.getElementById("vibe").value;
+
+  const usedSet =
+    used[language][vibe];
+
+  const total =
+    captions[language][vibe].length;
+
+  document.getElementById("counter").textContent =
+    `${usedSet.size} / ${total} caption digunakan • ${vibeNames[vibe]} • ${language.toUpperCase()}`;
 
 }
+
+
+/* =========================================================
+   INITIAL COUNTER
+   ========================================================= */
+
+updateCounter();
 
 </script>
 
 </body>
-          </html>
+</html>
